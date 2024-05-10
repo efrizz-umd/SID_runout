@@ -1,0 +1,26 @@
+#!/bin/csh
+#SBATCH --job-name=DecayProc_JOBTYPEHERE
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --oversubscribe
+#SBATCH --time=44:00:00
+#SBATCH --mail-user USERNAME@DOMAINADDR.EXT
+#SBATCH --mail-type=FAIL
+#SBATCH --mail-type=BEGIN
+#SBATCH --mail-type=END
+
+#############################################################
+# change the below input variable to your own filename
+#############################################################
+
+
+set dir=/home/efrizz/scratch.hartzell-lab/LIGGGHTS-SIM/boulder_friction/1.4/Production
+cd $dir
+
+# load compilers and matlab
+module load matlab/2021b/
+module load gcc/9.4.0
+module load voropp/gcc/
+
+# launch harvest scrpt
+matlab -nodisplay -nosplash -r "run('harvest_script_decay.m'); exit" > ./proc_output.txt
