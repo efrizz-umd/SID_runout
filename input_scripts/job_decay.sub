@@ -1,0 +1,32 @@
+#!/bin/csh
+#SBATCH --job-name=SID_JOBTYPE
+#SBATCH --nodes=1
+#SBATCH --ntasks=128
+#SBATCH --oversubscribe
+#SBATCH --time=12:00:00
+#SBATCH --mail-user USERNAME@DOMAINADDR.EXT
+#SBATCH --mail-type=FAIL
+#SBATCH --mail-type=BEGIN
+#SBATCH --mail-type=END
+
+#############################################################
+# change the below input variable to your own filename
+#############################################################
+
+# enter the directory of the input script
+set dir=/home/efrizz/scratch.hartzell-lab/LIGGGHTS-SIM/boulder_density/2500
+# point to the location of your compiled LIGGGHTS executable/shell script
+set codeexe=/home/efrizz/scratch.hartzell-lab/LIGGGHTS-SIM/size/lmp_auto
+
+cd $dir
+# clean up
+rm -r -f output.txt
+
+# load compilers
+module load gcc/9.4.0
+module load openmpi/gcc/9.4.0/zen2/4.1.1
+
+# launch piston impact simulation
+# CHANGE INPUT SCRIPT NAME HERE
+# CHANGE number of processors to match ntasks above and the product of processors within the LIGGGHTS input script
+mpirun -np 128 $codeexe -echo both -i ./in.decay > ./output.txt
